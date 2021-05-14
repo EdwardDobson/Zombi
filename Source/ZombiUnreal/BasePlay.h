@@ -8,6 +8,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "HealthPickup.h"
+#include "Kismet/GameplayStatics.h"
 #include "BasePlay.generated.h"
 
 
@@ -37,14 +38,18 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UCameraComponent* Camera;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float MovementForce;
+	float MovementForce;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Lives;
 
-
+	FName LevelName{"Level1"};
 	FVector CurrentVelocity;
 	void MoveUp(float _value);
 	void MoveRight(float _value);
 	void IncreasePlayerHealth(float _value);
+	UFUNCTION(BlueprintCallable, Category = "Player")
 	void Damage(float _value);
+		void Dead();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Health;
