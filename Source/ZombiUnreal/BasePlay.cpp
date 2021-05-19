@@ -15,14 +15,13 @@ ABasePlay::ABasePlay()
 	Camera->SetupAttachment(SpringArm);
 	Mesh->SetSimulatePhysics(true);
 	MovementForce = 100000;
-
+	Health = MaxHealth;
 }
 
 // Called when the game starts or when spawned
 void ABasePlay::BeginPlay()
 {
 	Super::BeginPlay();
-		MaxHealth = Health ;
 }
 
 // Called every frame
@@ -60,19 +59,19 @@ void ABasePlay::IncreasePlayerHealth(float _value)
 void ABasePlay::Damage(float _value)
 {
 	Health -= _value;
-	if (Health <= 0)
-	{
-		Health = 50;
-		Lives -= 1;
-
-	}
 }
 void ABasePlay::Dead()
 {
-
+	if (Health <= 0)
+	{
+		Health = MaxHealth;
+		Lives -= 1;
+	}
 	if (Lives <= 0)
 	{
-		LevelName = FName(*UGameplayStatics::GetCurrentLevelName(this, true));
-		
+		LevelName = 	FName(*UGameplayStatics::GetCurrentLevelName(this,true));
+		UGameplayStatics::SetGamePaused(this, true);
+
 	}
 }
+
