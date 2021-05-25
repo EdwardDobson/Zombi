@@ -10,10 +10,12 @@ ABasePlay::ABasePlay()
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>("SpringArm");
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
+	PlayerFiring = CreateDefaultSubobject<UPlayerFiring>("PlayerFiring");
 	RootComponent = Mesh;
 	SpringArm->SetupAttachment(Mesh);
 	Camera->SetupAttachment(SpringArm);
-	Mesh->SetSimulatePhysics(true);
+	AddOwnedComponent(PlayerFiring);
+	PlayerFiring->SetWorld(GetWorld());
 	MovementForce = 100000;
 
 }
@@ -22,7 +24,8 @@ ABasePlay::ABasePlay()
 void ABasePlay::BeginPlay()
 {
 	Super::BeginPlay();
-		MaxHealth = Health ;
+	MaxHealth = Health;
+
 }
 
 // Called every frame
@@ -35,14 +38,22 @@ void ABasePlay::Tick(float DeltaTime)
 		FVector NewLocation = GetActorLocation() + (CurrentVelocity * DeltaTime);
 		SetActorLocation(NewLocation);
 	}
+	if (m_shouldFire)
+	{
+		PlayerFiring->Fire(GetActorLocation(),GetActorRotation());
+	}
 }
 
 // Called to bind functionality to input
-void ABasePlay::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
+void ABasePlay::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	InputComponent->BindAxis("MoveUp", this, &ABasePlay::MoveUp);
 	InputComponent->BindAxis("MoveRight", this, &ABasePlay::MoveRight);
+	InputComponent->BindAction("Jump", IE_Pressed, this, &ABasePlay::JumpUp);
+	InputComponent->BindAction("Fire", IE_Pressed, this, &ABasePlay::FireInput);
+	InputComponent->BindAction("Fire", IE_Released, this, &ABasePlay::FireRelease);
+	InputComponent->BindAction("Reload", IE_Pressed, this, &ABasePlay::ReloadInput);
 }
 void ABasePlay::MoveUp(float _value)
 {
@@ -52,7 +63,24 @@ void ABasePlay::MoveRight(float _value)
 {
 	CurrentVelocity.Y = FMath::Clamp(_value, -1.0f, 1.0f) * MovementForce;
 }
-
+void ABasePlay::FireInput()
+{
+	PlayerFiring->SetShouldFire(true);
+}
+void ABasePlay::FireRelease()
+{
+	PlayerFiring->SetShouldFire(false);
+}
+void ABasePlay::ReloadInput()
+{
+	PlayerFiring->SetShouldReload(true);
+}
+void ABasePlay::JumpUp()
+{
+	m_canJump = true;
+	FVector jumpDir = FVector(0, 0, JumpValue);
+	Mesh->AddImpulse(jumpDir, "", false);
+}
 void ABasePlay::IncreasePlayerHealth(float _value)
 {
 	Health += _value;
@@ -64,15 +92,16 @@ void ABasePlay::Damage(float _value)
 	{
 		Health = 50;
 		Lives -= 1;
-
 	}
+}
+int ABasePlay::GetAmmoValueForUI()
+{
+	return PlayerFiring->Ammo;
 }
 void ABasePlay::Dead()
 {
-
 	if (Lives <= 0)
 	{
 		LevelName = FName(*UGameplayStatics::GetCurrentLevelName(this, true));
-		
 	}
 }
