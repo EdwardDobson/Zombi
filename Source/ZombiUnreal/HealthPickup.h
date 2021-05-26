@@ -4,7 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-
+#include "PickupParticle.h"
+#include "Particles/ParticleSystem.h"
 #include "HealthPickup.generated.h"
 
 UCLASS()
@@ -23,6 +24,11 @@ public:
 	void OnOverlap(AActor* _this, AActor* _other);
 		UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool DamagePlayer;
+
+		UPROPERTY(EditAnywhere)
+			UParticleSystem* ParticleSystem;
+		void SpawnParticle();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

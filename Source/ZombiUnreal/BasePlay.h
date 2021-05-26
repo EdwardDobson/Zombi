@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Components/StaticMeshComponent.h"
+
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 
@@ -12,6 +13,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "PlayerFiring.h"
 #include "Components/TextBlock.h"
+#include "DrawDebugHelpers.h"
 #include "BasePlay.generated.h"
 
 
@@ -40,6 +42,7 @@ public:
 		USpringArmComponent* SpringArm;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		UCameraComponent* Camera;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float MovementForce;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -48,10 +51,15 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		class UPlayerFiring* PlayerFiring;
 	FName LevelName{ "Level1" };
+	UPROPERTY(VisibleAnywhere)
 	FVector CurrentVelocity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float JumpValue;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float JumpCooldownMax;
+	float JumpCooldownCurrent{ 0 };
+	bool StartJumpCooldown;
 	void MoveUp(float _value);
 	void MoveRight(float _value);
 
@@ -73,9 +81,8 @@ public:
 	float MaxHealth;
 
 
-
 private:
-	bool m_canJump;
+	bool m_canJump{ true };
 	bool m_shouldFire = false;
 	bool m_shouldReload = false;
 };

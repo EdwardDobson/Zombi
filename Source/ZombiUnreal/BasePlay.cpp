@@ -11,13 +11,13 @@ ABasePlay::ABasePlay()
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>("SpringArm");
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	PlayerFiring = CreateDefaultSubobject<UPlayerFiring>("PlayerFiring");
+
 	RootComponent = Mesh;
 	SpringArm->SetupAttachment(Mesh);
 	Camera->SetupAttachment(SpringArm);
 	AddOwnedComponent(PlayerFiring);
 	PlayerFiring->SetWorld(GetWorld());
 	MovementForce = 100000;
-
 }
 
 // Called when the game starts or when spawned
@@ -25,7 +25,6 @@ void ABasePlay::BeginPlay()
 {
 	Super::BeginPlay();
 	MaxHealth = Health;
-
 }
 
 // Called every frame
@@ -42,6 +41,18 @@ void ABasePlay::Tick(float DeltaTime)
 	{
 		PlayerFiring->Fire(GetActorLocation(),GetActorRotation());
 	}
+	if (StartJumpCooldown)
+	{
+		JumpCooldownCurrent -= GetWorld()->DeltaTimeSeconds;
+		m_canJump = false;
+		if (JumpCooldownCurrent <= 0)
+		{
+			StartJumpCooldown = false;
+			JumpCooldownCurrent = JumpCooldownMax;
+			m_canJump = true;
+		}
+	}
+
 }
 
 // Called to bind functionality to input
@@ -77,14 +88,23 @@ void ABasePlay::ReloadInput()
 }
 void ABasePlay::JumpUp()
 {
-	m_canJump = true;
-	FVector jumpDir = FVector(0, 0, JumpValue);
-	Mesh->AddImpulse(jumpDir, "", false);
+
+	if (m_canJump)
+	{
+		FVector jumpDir = FVector(0, 0, JumpValue);
+		Mesh->AddImpulse(jumpDir, "", false);
+		if (JumpCooldownCurrent <= 0)
+			JumpCooldownCurrent = JumpCooldownMax;
+		StartJumpCooldown = true;
+	
+	}
+
 }
 void ABasePlay::IncreasePlayerHealth(float _value)
 {
 	Health += _value;
 }
+
 void ABasePlay::Damage(float _value)
 {
 	Health -= _value;
