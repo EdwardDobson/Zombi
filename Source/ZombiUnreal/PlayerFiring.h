@@ -7,6 +7,8 @@
 #include "Bullet/Bullet.h"
 #include "BasePlay.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "GunWeapon.h"
+#include "Macros.h"
 #include "PlayerFiring.generated.h"
 
 
@@ -29,9 +31,13 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void Fire(const FVector _position,const FRotator _rotation);
+	void Fire();
 	void Reloading();
-	void SetWorld(UWorld* _world);
+	void SetWorld(UWorld* _world, AActor* _player);
+	void SwitchWeapon();
+	void SetWeaponValues(TSubclassOf<AGunWeapon> _otherWeapon);
+
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int Ammo;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -42,6 +48,15 @@ public:
 		TSubclassOf<ABullet> Bullet;
 	UWorld* World;
 	AActor* Player;
+	FVector PlayerPos;
+	UPROPERTY(EditAnywhere, Category = "Weapon")
+		TSubclassOf<AGunWeapon> WeaponOne;
+	UPROPERTY(EditAnywhere, Category = "Weapon")
+		TSubclassOf<AGunWeapon> WeaponTwo;
+	UPROPERTY(VisibleAnyWhere)
+		int WeaponIndex;
+	UPROPERTY(EditAnywhere, Category = "Weapon")
+		TSubclassOf<AGunWeapon> m_currentWeapon;
 #pragma region Getters
 
 #pragma endregion

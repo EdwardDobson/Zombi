@@ -9,8 +9,7 @@ UPlayerFiring::UPlayerFiring()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
-	Player = PC;
+
 }
 
 
@@ -18,6 +17,16 @@ UPlayerFiring::UPlayerFiring()
 void UPlayerFiring::BeginPlay()
 {
 	Super::BeginPlay();
+	if (WeaponOne != NULL)
+	{
+		WeaponOne.GetDefaultObject()->Ammo = WeaponOne.GetDefaultObject()->MaxAmmo;
+		m_currentWeapon = WeaponOne;
+		Ammo = m_currentWeapon.GetDefaultObject()->Ammo;
+	}
+	if (WeaponTwo != NULL)
+	{
+		WeaponTwo.GetDefaultObject()->Ammo = WeaponTwo.GetDefaultObject()->MaxAmmo;
+	}
 }
 
 // Called every frame
@@ -30,39 +39,66 @@ void UPlayerFiring::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	}
 	if (m_shouldFire)
 	{
-		Fire(Player->GetActorLocation(),Player->GetActorRotation());
+		Fire();
 	}
 }
-void UPlayerFiring::SetWorld(UWorld* _world)
+void UPlayerFiring::SetWorld(UWorld* _world, AActor* _player)
 {
 	World = _world;
+	Player = _player;
 }
-void UPlayerFiring::Fire(const FVector _position,const FRotator _rotation)
+void UPlayerFiring::SwitchWeapon()
 {
-	if (World != NULL)
+	if (WeaponIndex == 0)//Weapon One
 	{
-		if (Ammo > 0)
-		{
-			CurrentRateOfFire -= World->GetDeltaSeconds();
-			if (CurrentRateOfFire <= 0)
-			{
-				World->SpawnActor<ABullet>(Bullet, _position, _rotation);
-			
-				CurrentRateOfFire = 0.4f;
-				Ammo--;
-			}
+		if(WeaponOne != NULL)
+		SetWeaponValues(WeaponOne);
+	
+	}
+	else if (WeaponIndex == 1)	//Weapon Two
+	{
+		if (WeaponTwo != NULL)
+		SetWeaponValues(WeaponTwo);
+	}
 
+
+}
+void UPlayerFiring::SetWeaponValues(TSubclassOf<AGunWeapon> _otherWeapon)
+{
+	if (m_currentWeapon != NULL)
+	{
+		m_currentWeapon = _otherWeapon;
+		Ammo = m_currentWeapon.GetDefaultObject()->Ammo;	
+	}
+}
+void UPlayerFiring::Fire()
+{
+	if (World != NULL && m_currentWeapon != NULL)
+	{
+		if (m_currentWeapon.GetDefaultObject()->Ammo > 0)
+		{
+			m_currentWeapon.GetDefaultObject()->FireRate -= World->GetDeltaSeconds();
+			if (m_currentWeapon.GetDefaultObject()->FireRate <= 0)
+			{
+				World->SpawnActor<ABullet>(Bullet, PlayerPos, Player->GetActorRotation());
+				m_currentWeapon.GetDefaultObject()->FireRate = m_currentWeapon.GetDefaultObject()->MaxFireRateTime;
+				m_currentWeapon.GetDefaultObject()->Ammo--;
+				Ammo = m_currentWeapon.GetDefaultObject()->Ammo;
+				DebugOutVector(PlayerPos.ToString());
+			}
 		}
 	}
 }
 
 void UPlayerFiring::Reloading()
 {
-	CurrentReloadRate -= World->GetDeltaSeconds();
-	if (CurrentReloadRate <= 0)
+	
+	m_currentWeapon.GetDefaultObject()->ReloadTime -= World->GetDeltaSeconds();
+	if (m_currentWeapon.GetDefaultObject()->ReloadTime <= 0)
 	{
-		Ammo = 5;
-		CurrentReloadRate = 0.5f;
+		m_currentWeapon.GetDefaultObject()->Ammo = m_currentWeapon.GetDefaultObject()->MaxAmmo;
+		m_currentWeapon.GetDefaultObject()->ReloadTime = m_currentWeapon.GetDefaultObject()->MaxReloadTime;
+		Ammo = m_currentWeapon.GetDefaultObject()->Ammo;
 		m_shouldReload = false;
 	}
 }

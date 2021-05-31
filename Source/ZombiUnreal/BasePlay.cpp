@@ -16,7 +16,7 @@ ABasePlay::ABasePlay()
 	SpringArm->SetupAttachment(Mesh);
 	Camera->SetupAttachment(SpringArm);
 	AddOwnedComponent(PlayerFiring);
-	PlayerFiring->SetWorld(GetWorld());
+	PlayerFiring->SetWorld(GetWorld(),this);
 	MovementForce = 100000;
 }
 
@@ -37,10 +37,6 @@ void ABasePlay::Tick(float DeltaTime)
 		FVector NewLocation = GetActorLocation() + (CurrentVelocity * DeltaTime);
 		SetActorLocation(NewLocation);
 	}
-	if (m_shouldFire)
-	{
-		PlayerFiring->Fire(GetActorLocation(),GetActorRotation());
-	}
 	if (StartJumpCooldown)
 	{
 		JumpCooldownCurrent -= GetWorld()->DeltaTimeSeconds;
@@ -52,6 +48,8 @@ void ABasePlay::Tick(float DeltaTime)
 			m_canJump = true;
 		}
 	}
+	if(PlayerFiring != NULL)
+	PlayerFiring->PlayerPos = GetActorLocation();
 
 }
 
@@ -65,10 +63,14 @@ void ABasePlay::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	InputComponent->BindAction("Fire", IE_Pressed, this, &ABasePlay::FireInput);
 	InputComponent->BindAction("Fire", IE_Released, this, &ABasePlay::FireRelease);
 	InputComponent->BindAction("Reload", IE_Pressed, this, &ABasePlay::ReloadInput);
+
+	InputComponent->BindAxis("Scroll", this, &ABasePlay::ChangeWeaponIndex);
+
 }
 void ABasePlay::MoveUp(float _value)
 {
 	CurrentVelocity.X = FMath::Clamp(_value, -1.0f, 1.0f) * MovementForce;
+
 }
 void ABasePlay::MoveRight(float _value)
 {
@@ -76,6 +78,7 @@ void ABasePlay::MoveRight(float _value)
 }
 void ABasePlay::FireInput()
 {
+
 	PlayerFiring->SetShouldFire(true);
 }
 void ABasePlay::FireRelease()
@@ -88,7 +91,6 @@ void ABasePlay::ReloadInput()
 }
 void ABasePlay::JumpUp()
 {
-
 	if (m_canJump)
 	{
 		FVector jumpDir = FVector(0, 0, JumpValue);
@@ -96,13 +98,33 @@ void ABasePlay::JumpUp()
 		if (JumpCooldownCurrent <= 0)
 			JumpCooldownCurrent = JumpCooldownMax;
 		StartJumpCooldown = true;
-	
 	}
-
 }
 void ABasePlay::IncreasePlayerHealth(float _value)
 {
 	Health += _value;
+}
+
+void ABasePlay::ChangeWeaponIndex(float _value)
+{
+	if (PlayerFiring != NULL)
+	{
+		if (_value == 1)
+		{
+			PlayerFiring->WeaponIndex++;
+			if (PlayerFiring->WeaponIndex > 1)
+				PlayerFiring->WeaponIndex = 0;
+			PlayerFiring->SwitchWeapon();
+		}
+		if (_value == -1)
+		{
+			PlayerFiring->WeaponIndex--;
+			if (PlayerFiring->WeaponIndex < 0)
+				PlayerFiring->WeaponIndex = 1;
+			PlayerFiring->SwitchWeapon();
+		}
+	}
+
 }
 
 void ABasePlay::Damage(float _value)
@@ -116,7 +138,10 @@ void ABasePlay::Damage(float _value)
 }
 int ABasePlay::GetAmmoValueForUI()
 {
-	return PlayerFiring->Ammo;
+	if (PlayerFiring != NULL)
+		return PlayerFiring->Ammo;
+	else
+		return 0;
 }
 void ABasePlay::Dead()
 {

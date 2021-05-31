@@ -14,6 +14,7 @@
 #include "PlayerFiring.h"
 #include "Components/TextBlock.h"
 #include "DrawDebugHelpers.h"
+#include "Macros.h"
 #include "BasePlay.generated.h"
 
 
@@ -53,7 +54,7 @@ public:
 	FName LevelName{ "Level1" };
 	UPROPERTY(VisibleAnywhere)
 	FVector CurrentVelocity;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float JumpValue;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -68,6 +69,7 @@ public:
 	void FireRelease();
 	void ReloadInput();
 	void IncreasePlayerHealth(float _value);
+	void ChangeWeaponIndex(float _value);
 	UFUNCTION(BlueprintCallable, Category = "Player")
 		void Damage(float _value);
 	UFUNCTION(BlueprintCallable, Category = "UI-Utility")
