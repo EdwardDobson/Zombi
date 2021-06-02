@@ -12,7 +12,6 @@
 #include "HealthPickup.h"
 #include "Kismet/GameplayStatics.h"
 #include "PlayerFiring.h"
-#include "Components/TextBlock.h"
 #include "DrawDebugHelpers.h"
 #include "Macros.h"
 #include "BasePlay.generated.h"
