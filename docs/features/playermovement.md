@@ -5,7 +5,8 @@ The current velocity is applied to the players current location this moves the p
 
 ### Implementation
 
-<pre><code>void ABasePlay::MoveUp(float _value)
+<pre><code>
+void ABasePlay::MoveUp(float _value)
 {
 	CurrentVelocity.X = FMath::Clamp(_value, -1.0f, 1.0f) * MovementForce;
 }
