@@ -4,7 +4,7 @@
 
 For the wave system to work the player needs to be able to respawn. The respawn mechanic was developed in C++ and the Game over screen was developed with blueprints.
 
-## Implementation
+## Code
 
 <pre><code>
 void ABasePlay::Damage(float _value)
