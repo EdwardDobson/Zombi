@@ -1,4 +1,5 @@
 # Overview
+[Current Features](/docs/currentfeatures.md)
 
 Teleporters allow for the player to traverse the map quickly. The teleporters can have their cooldowns changed as well as their destinations. I created this feature using blueprints.
 
