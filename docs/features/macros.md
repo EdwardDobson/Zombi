@@ -1,6 +1,6 @@
 # Overview
 
-To help with implementing functions that are long I have created some macros. These macros help outputting values for debugging.
+These macros help outputting values for debugging.
 
 ## Code
 
