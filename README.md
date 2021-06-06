@@ -6,7 +6,7 @@ Feel free to download the source files or the build to try it out!
 
 **Make sure to use Unreal 4.26.2 if you are using the source files.**
 
-[Documention](/docs/homepage.md)
+[Documention](./docs/homepage.md)
 
 The current developed features are listed below:
 
