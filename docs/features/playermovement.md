@@ -1,4 +1,4 @@
-## Overview
+# Overview
 
 The player movement is one of the core elements in my project and was written in C++.
 The current velocity is applied to the players current location this moves the player. Both the left and right functions are bound to the two axis set in the project settings. I use delta time to make sure that the framerate wont affect the players speed.
