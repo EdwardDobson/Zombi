@@ -6,7 +6,7 @@
 - Weapon Switching
 - Enemy chasing via Nav Mesh
 - [Jump Pads](./features/jumppads.md)
-- [Health Pickups](./features/healthpickup.md)
+- [Pickups](./features/pickup.md)
 - Damage Objects
 - Player Respawning
 - Basic Main Menu + Pause Menu
