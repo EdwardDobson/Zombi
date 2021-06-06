@@ -1,5 +1,5 @@
 
-The current developed features are listed below:
+## Current Features ##
 
 - Player Movement
 - Weapon Pickup
