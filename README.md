@@ -18,3 +18,4 @@ The current developed features are listed below:
 - Player Respawning
 - Basic Main Menu + Pause Menu
 - Player shooting (currently in one direction)
+- Teleporters
