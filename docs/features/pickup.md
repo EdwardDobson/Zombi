@@ -5,7 +5,7 @@ To create the pickup feature I used a combination of C++ code and blueprints. Wh
 
 ## Implementation
 
-### Interaction
+### Code
 <pre><code>
 void AHealthPickup::OnOverlap(AActor *_this, AActor *_other)
 {
@@ -30,7 +30,7 @@ void AHealthPickup::SpawnParticle()
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ParticleSystem, GetActorLocation());
 }
 </code></pre>
-### Animation
+### Blueprint
 
 ![Healthpickup Animation](https://user-images.githubusercontent.com/47003895/120931622-4eb40680-c6ea-11eb-912c-2135d33f3a34.png)
 
