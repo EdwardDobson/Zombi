@@ -23,10 +23,11 @@ void UPlayerFiring::BeginPlay()
 		m_currentWeapon = WeaponOne;
 		Ammo = m_currentWeapon.GetDefaultObject()->Ammo;
 	}
-	if (WeaponTwo != NULL)
+	if (WeaponTwo != NULL && WeaponOne != NULL)
 	{
 		WeaponTwo.GetDefaultObject()->Ammo = WeaponTwo.GetDefaultObject()->MaxAmmo;
 	}
+
 }
 
 // Called every frame
@@ -40,6 +41,11 @@ void UPlayerFiring::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	if (m_shouldFire)
 	{
 		Fire();
+	}
+	if (PickupWeapon)
+	{
+		PickupWeaponFunction();
+		PickupWeapon = false;
 	}
 }
 void UPlayerFiring::SetWorld(UWorld* _world, AActor* _player)
@@ -71,6 +77,11 @@ void UPlayerFiring::SetWeaponValues(TSubclassOf<AGunWeapon> _otherWeapon)
 		Ammo = m_currentWeapon.GetDefaultObject()->Ammo;	
 	}
 }
+void UPlayerFiring::DropWeapon()
+{
+
+
+}
 void UPlayerFiring::Fire()
 {
 	if (World != NULL && m_currentWeapon != NULL)
@@ -83,6 +94,7 @@ void UPlayerFiring::Fire()
 				World->SpawnActor<ABullet>(Bullet, PlayerPos, Player->GetActorRotation());
 				m_currentWeapon.GetDefaultObject()->FireRate = m_currentWeapon.GetDefaultObject()->MaxFireRateTime;
 				m_currentWeapon.GetDefaultObject()->Ammo--;
+		
 				Ammo = m_currentWeapon.GetDefaultObject()->Ammo;
 				DebugOutVector(PlayerPos.ToString());
 			}
@@ -102,3 +114,23 @@ void UPlayerFiring::Reloading()
 		m_shouldReload = false;
 	}
 }
+void UPlayerFiring::PickupWeaponFunction()
+{
+	if (WeaponOne != PickedUpWeapon && WeaponTwo != PickedUpWeapon)
+	{
+		if (WeaponIndex == 0)
+		{
+			WeaponOne = PickedUpWeapon;
+			PickedUpWeapon.GetDefaultObject()->Ammo = PickedUpWeapon.GetDefaultObject()->MaxAmmo;
+			SetWeaponValues(PickedUpWeapon);
+		}
+		if (WeaponIndex == 1)
+		{
+			WeaponTwo = PickedUpWeapon;
+			PickedUpWeapon.GetDefaultObject()->Ammo = PickedUpWeapon.GetDefaultObject()->MaxAmmo;
+			SetWeaponValues(PickedUpWeapon);
+		}
+	}
+
+}
+

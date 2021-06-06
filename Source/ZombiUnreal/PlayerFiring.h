@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Macros.h"
 #include "Components/ActorComponent.h"
 #include "Bullet/Bullet.h"
 #include "BasePlay.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GunWeapon.h"
-#include "Macros.h"
 #include "PlayerFiring.generated.h"
 
 
@@ -36,14 +36,16 @@ public:
 	void SetWorld(UWorld* _world, AActor* _player);
 	void SwitchWeapon();
 	void SetWeaponValues(TSubclassOf<AGunWeapon> _otherWeapon);
-
-
+	void DropWeapon();
+	void PickupWeaponFunction();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int Ammo;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float CurrentRateOfFire;
 	UPROPERTY(EditAnywhere)
 		float CurrentReloadRate;
+	UPROPERTY(VisibleAnywhere)
+	bool PickupWeapon;
 	UPROPERTY(EditAnywhere, Category = "Bullet")
 		TSubclassOf<ABullet> Bullet;
 	UWorld* World;
@@ -57,6 +59,9 @@ public:
 		int WeaponIndex;
 	UPROPERTY(EditAnywhere, Category = "Weapon")
 		TSubclassOf<AGunWeapon> m_currentWeapon;
+	UPROPERTY(EditAnywhere, Category = "Weapon")
+		TSubclassOf<AGunWeapon> PickedUpWeapon;
+
 #pragma region Getters
 
 #pragma endregion

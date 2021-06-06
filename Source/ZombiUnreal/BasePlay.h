@@ -8,7 +8,7 @@
 
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-
+#include "GunWeapon.h"
 #include "HealthPickup.h"
 #include "Kismet/GameplayStatics.h"
 #include "PlayerFiring.h"
@@ -46,7 +46,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float MovementForce;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int Lives;
+		int Lives{ 3 };
 
 	UPROPERTY(VisibleAnywhere)
 		class UPlayerFiring* PlayerFiring;
@@ -55,9 +55,9 @@ public:
 	FVector CurrentVelocity;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float JumpValue;
+		float JumpValue{ 100000 };
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float JumpCooldownMax;
+		float JumpCooldownMax{ 3 };
 	float JumpCooldownCurrent{ 0 };
 	bool StartJumpCooldown;
 	void MoveUp(float _value);
@@ -74,14 +74,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UI-Utility")
 		int GetAmmoValueForUI();
 	void Dead();
-
+	void PickupWeaponInput();
+	UFUNCTION(BlueprintCallable)
+	void SetPickedUpWeapon(TSubclassOf<AGunWeapon> _weapon);
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float Health;
+		float Health{ 100 };
+	float MaxHealth{ 100 };
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float RateOfFire;
-	float MaxHealth;
-
-
+	bool OverWeapon;
+	UPROPERTY(EditAnywhere, Category = "Weapon")
+		TSubclassOf<AGunWeapon> PickedUpWeapon;
 private:
 	bool m_canJump{ true };
 	bool m_shouldFire = false;

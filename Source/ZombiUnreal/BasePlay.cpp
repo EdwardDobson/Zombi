@@ -17,7 +17,10 @@ ABasePlay::ABasePlay()
 	Camera->SetupAttachment(SpringArm);
 	AddOwnedComponent(PlayerFiring);
 	PlayerFiring->SetWorld(GetWorld(),this);
-	MovementForce = 100000;
+
+	SpringArm->TargetArmLength = 1000;
+	SpringArm->bDoCollisionTest = false;
+	MovementForce = 1000;
 }
 
 // Called when the game starts or when spawned
@@ -25,6 +28,7 @@ void ABasePlay::BeginPlay()
 {
 	Super::BeginPlay();
 	MaxHealth = Health;
+	Mesh->SetSimulatePhysics(true);
 }
 
 // Called every frame
@@ -63,6 +67,7 @@ void ABasePlay::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	InputComponent->BindAction("Fire", IE_Pressed, this, &ABasePlay::FireInput);
 	InputComponent->BindAction("Fire", IE_Released, this, &ABasePlay::FireRelease);
 	InputComponent->BindAction("Reload", IE_Pressed, this, &ABasePlay::ReloadInput);
+	InputComponent->BindAction("Interact", IE_Pressed, this, &ABasePlay::PickupWeaponInput);
 
 	InputComponent->BindAxis("Scroll", this, &ABasePlay::ChangeWeaponIndex);
 
@@ -149,4 +154,21 @@ void ABasePlay::Dead()
 	{
 		LevelName = FName(*UGameplayStatics::GetCurrentLevelName(this, true));
 	}
+}
+void ABasePlay::PickupWeaponInput()
+{
+	if (OverWeapon)
+	{
+		DebugOut("Over Weapon");
+		PlayerFiring->PickupWeapon = true;
+		PlayerFiring->PickedUpWeapon = PickedUpWeapon;
+	}
+	else
+	{
+		DebugOut("Not Over Weapon");
+	}
+}
+void ABasePlay::SetPickedUpWeapon(TSubclassOf<AGunWeapon> _weapon)
+{
+	PickedUpWeapon = _weapon;
 }

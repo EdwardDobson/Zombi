@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Macros.h"
 #include "GunWeapon.generated.h"
 
 UCLASS()
@@ -22,6 +23,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float MaxReloadTime;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -34,5 +37,7 @@ public:
 	float ReloadTime;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int Ammo;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FString GunName;
 
 };
