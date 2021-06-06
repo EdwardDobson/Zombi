@@ -7,7 +7,7 @@
 - Enemy chasing via Nav Mesh
 - [Jump Pads](./features/jumppads.md)
 - [Pickups](./features/pickup.md)
-- Player Respawning
+- [Player Respawning](./features/playerrespawning)
 - Basic Main Menu + Pause Menu
 - Player shooting (currently in one direction)
 - [Teleporters](./features/teleporters.md)
