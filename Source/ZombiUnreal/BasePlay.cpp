@@ -75,7 +75,6 @@ void ABasePlay::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ABasePlay::MoveUp(float _value)
 {
 	CurrentVelocity.X = FMath::Clamp(_value, -1.0f, 1.0f) * MovementForce;
-
 }
 void ABasePlay::MoveRight(float _value)
 {

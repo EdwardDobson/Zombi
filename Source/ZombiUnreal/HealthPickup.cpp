@@ -14,7 +14,6 @@ AHealthPickup::AHealthPickup()
 void AHealthPickup::SpawnParticle()
 {
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ParticleSystem, GetActorLocation());
-
 }
 
 // Called when the game starts or when spawned

@@ -131,6 +131,5 @@ void UPlayerFiring::PickupWeaponFunction()
 			SetWeaponValues(PickedUpWeapon);
 		}
 	}
-
 }
 

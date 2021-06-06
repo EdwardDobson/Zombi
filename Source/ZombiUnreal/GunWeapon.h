@@ -11,8 +11,8 @@ UCLASS()
 class ZOMBIUNREAL_API AGunWeapon : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AGunWeapon();
 
@@ -20,24 +20,21 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float MaxReloadTime;
+		float MaxReloadTime;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float MaxFireRateTime;
+		float MaxFireRateTime;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int MaxAmmo;
+		int MaxAmmo;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float Damage;
 	float FireRate;
 	float ReloadTime;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int Ammo;
+		int Ammo;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString GunName;
-
 };
