@@ -1,4 +1,5 @@
 # Overview
+[Current Features](/docs/currentfeatures.md)
 
 The gun class allows the easy creation of different types of guns. This was solely written in C++, at the start of the game the current values get set this saves having to match the current ammo with the max ammo for example.
 ## Implementation
