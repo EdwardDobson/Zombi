@@ -11,4 +11,4 @@
 - Basic Main Menu + Pause Menu
 - Player shooting (currently in one direction)
 - [Teleporters](./features/teleporters.md)
-- Gun Weapons
+- [Gun Weapons](./features/gunweapons.md)
