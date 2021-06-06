@@ -2,7 +2,7 @@
 
 To create the pickup feature I used a combination of C++ code and blueprints. When the player hits the pickup a value will be changed based on its type this is done in the C++ code. The animation for the blobbing and turning is done via blueprints.
 
-## Implementation.
+## Implementation
 
 ### Interaction
 <pre><code>
