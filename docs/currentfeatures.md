@@ -12,4 +12,4 @@
 - Player shooting (currently in one direction)
 - [Teleporters](./features/teleporters.md)
 - [Gun Weapons](./features/gunweapons.md)
-- [Macros](.features/macros.md)
+- [Macros](./features/macros.md)
