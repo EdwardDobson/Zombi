@@ -8,4 +8,4 @@ Feel free to download the source files or the build to try it out!
 
 [Documention](./docs/homepage.md)
 
-[Current Features](./docs/Current Features.md)
+[Current Features](./docs/currentfeatures.md)
