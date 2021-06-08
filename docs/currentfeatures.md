@@ -2,7 +2,7 @@
 ## Current Features ##
 
 - [Player Movement](./features/playermovement.md)
-- [Weapon Pickup] (./features/weaponpickup.md)
+- [Weapon Pickup](./features/weaponpickup.md)
 - Weapon Switching
 - Enemy chasing via Nav Mesh
 - [Jump Pads](./features/jumppads.md)
