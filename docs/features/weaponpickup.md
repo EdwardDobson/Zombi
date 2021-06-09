@@ -1,4 +1,5 @@
 # Overview
+Being able to pickup different types of weapons in my project expands the gameplay in two ways, the first replayability and the other difficulty.
 
 [Current Features](/docs/currentfeatures.md)
 
