@@ -1,5 +1,5 @@
 # Overview
-Being able to pickup different types of weapons in my project expands the gameplay in two ways, the first replayability and the other difficulty.
+Being able to pickup different types of weapons in my project expands the gameplay in two ways, the first replayability and the other difficulty. Being able to choose which weapons you can pickup each run will feel different. The difficulty can be altered by placing the weapons at different parts of the level.
 
 [Current Features](/docs/currentfeatures.md)
 
