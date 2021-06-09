@@ -5,7 +5,7 @@ Here you can find all of the currently developed features my game has to offer.
 
 - [Player Movement](./features/playermovement.md)
 - [Weapon Pickup](./features/weaponpickup.md)
-- Weapon Switching
+- [Weapon Switching](./features/weaponswitching.md)
 - Enemy chasing via Nav Mesh
 - [Jump Pads](./features/jumppads.md)
 - [Pickups](./features/pickup.md)
