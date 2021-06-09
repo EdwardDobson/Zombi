@@ -1,6 +1,8 @@
 
 ## Current Features ##
 
+Here you can find all of the currently developed features my game has to offer.
+
 - [Player Movement](./features/playermovement.md)
 - [Weapon Pickup](./features/weaponpickup.md)
 - Weapon Switching
