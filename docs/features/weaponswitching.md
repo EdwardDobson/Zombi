@@ -4,6 +4,8 @@ When the player scrolls the weapon index change, this is done in the Base Play c
 
 [Current Features](/docs/currentfeatures.md)
 
+## Code
+
 <pre><code>
 void UPlayerFiring::SwitchWeapon()
 {
